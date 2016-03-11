@@ -1,0 +1,25 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.example.jcman.bluetoothcontacts.MainActivity" >
+    <item android:id="@+id/action_new_bluetooth"
+        android:title="建立连接"
+        android:orderInCategory="100"
+        app:showAsAction="never" />
+    <item android:id="@+id/action_bluetooth_visible"
+        android:title="蓝牙可见"
+        android:orderInCategory="100"
+        app:showAsAction="never" />
+    <item android:id="@+id/action_bluetooth_disable"
+        android:title="关闭蓝牙"
+        android:orderInCategory="100"
+        app:showAsAction="never" />
+    <item android:id="@+id/action_select_all"
+        android:title="全部选择"
+        android:orderInCategory="100"
+        app:showAsAction="never" />
+    <item android:id="@+id/action_cancel_all"
+        android:title="全部取消"
+        android:orderInCategory="100"
+        app:showAsAction="never" />
+</menu>
