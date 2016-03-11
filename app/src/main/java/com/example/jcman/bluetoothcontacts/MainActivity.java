@@ -42,8 +42,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Set;
-
 public class MainActivity extends AppCompatActivity {
 
     private ListView mListView;
@@ -81,7 +79,7 @@ public class MainActivity extends AppCompatActivity {
         mContactsList = ContactsUtil.getLocalContacts(this);
         Collections.sort(mContactsList, new Comparator<Contacts>(){
             @Override
-            public int compare(Contacts lhs, Contacts rhs) {
+            public int compare(Contacts lhs, Contacts rhs){
                 return lhs.getName().compareTo(rhs.getName());
             }
         });
@@ -113,11 +111,6 @@ public class MainActivity extends AppCompatActivity {
                             setStatus("无连接");
                             break;
                     }
-                    break;
-                case Constants.MESSAGE_WRITE:
-                    byte[] writeBuf = (byte[]) msg.obj;
-                    String writeMessage = new String(writeBuf);
-//                    send(writeMessage);
                     break;
                 case Constants.MESSAGE_READ:
                     byte[] readBuf = (byte[]) msg.obj;
@@ -186,8 +179,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         dialog.show();
-
-
     }
 
     private void cancelLoadingDialg(){
@@ -334,7 +325,6 @@ public class MainActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
-
     private void LinkToDevice(){
         if(!ba.isEnabled())
             openBlueTooth();

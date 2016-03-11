@@ -7,11 +7,8 @@ import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
 import android.provider.ContactsContract;
-
-import com.app.tool.logger.Logger;
 import com.example.jcman.bluetoothcontacts.model.Contacts;
 import android.provider.ContactsContract.CommonDataKinds.*;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,7 +22,7 @@ public class ContactsUtil {
     }
     private static List<Contacts> getPhoneNumbersByUri(Context context, Uri uri){
         String[] PHONES_PROJECTION = new String[]{
-                Phone.DISPLAY_NAME, Phone.NUMBER, Phone.CONTACT_ID };
+                Phone.DISPLAY_NAME, Phone.NUMBER, Phone.CONTACT_ID};
         List<Contacts> _List = new ArrayList<>();
         ContentResolver resolver = context.getContentResolver();
         Cursor cursor = resolver.query(uri,PHONES_PROJECTION,null,null,null);
@@ -71,5 +68,46 @@ public class ContactsUtil {
             return false;
         }
         return true;
+    }
+
+    public static boolean deleteContact(Context context,String contact_id){
+        String where = ContactsContract.Data._ID  + " =?";
+        String[] whereparams = new String[]{contact_id};
+        boolean result = context.getContentResolver().delete(ContactsContract.RawContacts.CONTENT_URI, where, whereparams)>0;
+        return result;
+    }
+
+    public static List<Contacts> ReadAllContacts(Context context){
+        List<Contacts> _List = new ArrayList<>();
+        Cursor cursor = context.getContentResolver().query(ContactsContract.Contacts.CONTENT_URI,
+                null, null, null, null);
+        int contactIdIndex = 0;
+        int nameIndex = 0;
+        if(cursor.getCount()>0){
+            contactIdIndex = cursor.getColumnIndex(ContactsContract.Contacts._ID);
+            nameIndex = cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME);
+        }
+        while(cursor.moveToNext()){
+            String contactId = cursor.getString(contactIdIndex);
+            String name = cursor.getString(nameIndex);
+            /*
+             * 查找该联系人的phone信息
+             */
+            Cursor phones = context.getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
+                    null,
+                    ContactsContract.CommonDataKinds.Phone.CONTACT_ID + "=" + contactId,
+                    null, null);
+            int phoneIndex = 0;
+            if(phones.getCount() > 0){
+                phoneIndex = phones.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER);
+            }
+            while(phones.moveToNext()){
+                String phoneNumber = phones.getString(phoneIndex);
+                Contacts contact = new Contacts(name,phoneNumber,false);
+                contact.setId(contactId);
+                _List.add(contact);
+            }
+        }
+        return _List;
     }
 }

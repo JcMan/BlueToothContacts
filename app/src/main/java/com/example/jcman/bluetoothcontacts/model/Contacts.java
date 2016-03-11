@@ -8,8 +8,21 @@ public class Contacts {
     private String name;
     private String phoneNumber;
     private boolean isChecked;
+    private String id;
 
-    public Contacts(String name,String phoneNumber,boolean isChecked){
+    public boolean isChecked() {
+        return isChecked;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public Contacts(String name, String phoneNumber, boolean isChecked){
         this.name = name;
         this.phoneNumber = phoneNumber;
         this.isChecked = isChecked;
