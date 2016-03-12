@@ -250,7 +250,11 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        if (mChatService==null){
+        if (!ba.isEnabled()){
+            Intent enableIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+            startActivityForResult(enableIntent, 0);
+        }
+        else if (mChatService==null){
             mChatService = new BluetoothChatService(this,mHandler);
         }
     }
